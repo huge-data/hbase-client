@@ -1,0 +1,253 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>zx.soft</groupId>
+		<artifactId>common-parent</artifactId>
+		<version>2.0.2</version>
+	</parent>
+
+	<groupId>info.hb</groupId>
+	<artifactId>hbase-client</artifactId>
+	<version>1.0.0</version>
+	<name>HBase Client</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<junit.version>4.12</junit.version>
+		<hadoop.version>2.6.0</hadoop.version>
+		<hive.version>1.2.1</hive.version>
+		<avro.version>1.7.6</avro.version>
+		<parquet.version>1.8.1</parquet.version>     <!-- CDH5.4.9使用的版本是1.5.0 -->
+		<commons-io.version>2.4</commons-io.version>
+		<joda.version>1.6.2</joda.version>
+		<hbase.version>1.0.0</hbase.version>
+		<powermock.version>1.6.2</powermock.version>
+	</properties>
+
+	<dependencies>
+		<!-- 对象池 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+		<!-- Hbase -->
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+			<version>${hbase.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.hbase</groupId>
+					<artifactId>hbase-protocol</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-common</artifactId>
+			<version>${hbase.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-server</artifactId>
+			<version>${hbase.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-protocol</artifactId>
+			<version>${hbase.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-thrift</artifactId>
+			<version>${hbase.version}</version>
+		</dependency>
+		<!-- Hadoop -->
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+			<version>${hadoop.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-common</artifactId>
+			<version>${hadoop.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-hdfs</artifactId>
+			<version>${hadoop.version}</version>
+		</dependency>
+		<!-- Avro -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro-mapred</artifactId>
+			<version>${avro.version}</version>
+			<!-- 必须有，否则与YARN不兼容 -->
+			<classifier>hadoop2</classifier>
+		</dependency>
+		<!-- Parquet -->
+		<dependency>
+			<groupId>org.apache.parquet</groupId>
+			<artifactId>parquet-common</artifactId>
+			<version>${parquet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.parquet</groupId>
+			<artifactId>parquet-column</artifactId>
+			<version>${parquet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.parquet</groupId>
+			<artifactId>parquet-hadoop</artifactId>
+			<version>${parquet.version}</version>
+		</dependency>
+		<!-- 捆绑包，没有源码，捆绑common/column/hadoop三个包 -->
+		<!-- <dependency> <groupId>org.apache.parquet</groupId> <artifactId>parquet-hadoop-bundle</artifactId> 
+			<version>${parquet.version}</version> </dependency> -->
+		<dependency>
+			<groupId>org.apache.parquet</groupId>
+			<artifactId>parquet-avro</artifactId>
+			<version>${parquet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.parquet</groupId>
+			<artifactId>parquet-encoding</artifactId>
+			<version>${parquet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.twitter</groupId>
+			<artifactId>parquet-format</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hive.hcatalog</groupId>
+			<artifactId>hive-hcatalog-core</artifactId>
+			<version>${hive.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.hive</groupId>
+					<artifactId>hive-exec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Others -->
+		<!-- 注意guava版本不能用最新的 -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0.1</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.netflix.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda.version}</version>
+		</dependency>
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- apacheds-jdbm1依赖包 -->
+		<!-- <dependency> <groupId>org.apache.directory.jdbm</groupId> <artifactId>apacheds-jdbm1</artifactId> 
+			<version>2.0.0-M2</version> <scope>test</scope> </dependency> -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+		<finalName>${project.artifactId}-${project.version}</finalName>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>zxsoft-public</id>
+			<name>Nexus Release Repository</name>
+			<url>http://192.168.3.23:18081/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<inceptionYear>2016</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>all</distribution>
+			<comments>Copyright 2016 (c) Gang Wang - All Right Reserved</comments>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>wgybzb</id>
+			<name>Gang Wang</name>
+			<email>wanggang@zxisl.com</email>
+			<url>http://github.com/wgybzbrobot</url>
+			<roles>
+				<role>ReleaseManager</role>
+				<role>Designer</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>UTC-8</timezone>
+		</developer>
+	</developers>
+
+</project>
